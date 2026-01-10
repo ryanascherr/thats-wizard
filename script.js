@@ -1,3 +1,5 @@
+import { castStun, castSilence, castExplosion, castDeath, castDisarm, castGrimOmen, castSharePain } from "./spells.js";
+
 let cards = [
     {
         id: 0,
@@ -23,23 +25,23 @@ let cards = [
     },
     {
         id: 2,
-        name: "Baby Explosion",
-        school: "Curses",
+        name: "Share Pain",
+        school: "Hexes",
         target: "Opponent",
         timing: "Instant",
-        powerMin: 2,
-        powerMax: 4,
+        powerMin: 1,
+        powerMax: 3,
         type: "Damage",
         damage: 1
     },
     {
         id: 3,
-        name: "Big Shock",
-        school: "Jinxes",
+        name: "Stun",
+        school: "",
         target: "Opponent",
         timing: "Instant",
-        powerMin: 2,
-        powerMax: 4,
+        powerMin: 1,
+        powerMax: 3,
         type: "Damage",
         damage: 0
     }
@@ -51,6 +53,8 @@ class Player {
         this.stamina = 20;
         this.power = 10;
         this.cards = [0, 1, 2];
+        this.hasSilence = false;
+        this.silenceRounds = 0;
     }
     takeDamage(damage) {
         this.stamina -= damage;
@@ -61,7 +65,7 @@ class Player {
             this.stamina = 0;
         }
         console.log(this.name + " takes " + damage + " Damage.");
-        console.log(this.name + "'s Stamina is " + this.stamina + "/20.");
+        this.displayStamina();
     }
     takeFatigue(fatigue) {
         this.stamina -= fatigue;
@@ -71,8 +75,8 @@ class Player {
         if (this.stamina < 0) {
             this.stamina = 0;
         }
-        console.log(this.name + " takes " + fatigue + " Famage.");
-        console.log(this.name + "'s Stamina is " + this.stamina + "/20.");
+        console.log(this.name + " takes " + fatigue + " Fatigue.");
+        this.displayStamina();
     }
     chooseCard() {
 
@@ -81,7 +85,13 @@ class Player {
         this.power -= power;
         
         console.log(this.name + " uses " + power + " Power.");
-        console.log(this.name + "'s Power is " + this.power + "/10.");
+        this.displayPower();
+    }
+    displayPower() {
+        console.log(this.name + " has " + this.power + "/10 Power.")
+    }
+    displayStamina() {
+        console.log(this.name + " has " + this.stamina + "/20 Stamina.")
     }
     focus() {
         this.power = 10;
@@ -98,6 +108,9 @@ class Player {
 
         computer.takeDamage(damage);
     }
+    lose() {
+        console.log(this.name + " loses the duel.");
+    }
 };
 
 class Human extends Player {
@@ -108,7 +121,7 @@ class Human extends Player {
 
 class Computer extends Player {
     chooseCard() {
-        let currentPower = computer.power;
+        let currentPower = this.power;
         let arrayOfCastableSpells = [];
 
         cards.forEach(function(card) {
@@ -121,15 +134,18 @@ class Computer extends Player {
         let chosenCard = cards.find(card => card.id === randomCardId);
         let powerUsed = Math.floor(Math.random() * (chosenCard.powerMax - chosenCard.powerMin + 1)) + chosenCard.powerMin;
 
-        computer.usePower(powerUsed);
+        this.usePower(powerUsed);
         
-        computer.castSpell(randomCardId, powerUsed);
+        this.castSpell(randomCardId, powerUsed);
     }
 };
 
 let human = new Human("Human");
 let computer = new Computer("Computer");
 let turn = 1;
+
+human.takeDamage(7);
+castGrimOmen(human, computer, 7);
 
 // human.takeDamage(5);
 // human.usePower(7);
@@ -144,6 +160,6 @@ function startGame() {
 
 function startTurn() {
     console.log("Turn " + turn);
-    computer.chooseCard();
-    human.chooseCard();
+    // computer.chooseCard();
+    // human.chooseCard();
 }
