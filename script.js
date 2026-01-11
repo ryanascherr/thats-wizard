@@ -1,4 +1,4 @@
-import { castStun, castSilence, castExplosion, castDeath, castDisarm, castGrimOmen, castSharePain } from "./spells.js";
+import { castStun, castSilence, castExplosion, castDeath, castDisarm, castGrimOmen, castSharePain, castChaos, castMindControl, castPolymorph } from "./spells.js";
 
 let cards = [
     {
@@ -144,8 +144,8 @@ let human = new Human("Human");
 let computer = new Computer("Computer");
 let turn = 1;
 
-human.takeDamage(7);
-castGrimOmen(human, computer, 7);
+// human.takeDamage(7);
+castChaos(human, computer, 7);
 
 // human.takeDamage(5);
 // human.usePower(7);

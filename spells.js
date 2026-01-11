@@ -90,3 +90,53 @@ export function castSharePain(caster, target, power) {
 
     target.takeFatigue(fatigue);
 }
+
+export function castChaos(caster, target, power) {
+    console.log(caster.name + " is casting Chaos on " + target.name + " using " + power + " Power.");
+
+    let randomNumber = Math.floor(Math.random() * 6) + 1;
+    let damage = power;
+
+    console.log(caster.name + " rolled a " + randomNumber + ".");
+
+    if (randomNumber === 1) {
+        caster.takeDamage(damage);
+        target.takeDamage(damage);
+    } else if (randomNumber === 2) {
+        target.takeDamage(damage);
+    } else if (randomNumber === 3 || randomNumber === 4) {
+        damage = power + 1;
+        target.takeDamage(damage);
+    } else if (randomNumber === 5 || randomNumber === 6) {
+        damage = power + 2;
+        target.takeDamage(damage);
+    }
+}
+
+export function castMindControl(caster, target, power) {
+    console.log(caster.name + " is casting Mind Control on " + target.name + " using " + power + " Power.");
+
+    let threshold = power - 8;
+    let conditionMet = target.power <= threshold ? true : false;
+
+    if (conditionMet) {
+        console.log(target.name + " has " + threshold + " or less Power and forfeits the duel.");
+        target.lose();
+    } else {
+        console.log("Mind Control has no effect.");
+    }
+}
+
+export function castPolymorph(caster, target, power) {
+    console.log(caster.name + " is casting Polymorph on " + target.name + " using " + power + " Power.");
+
+    let threshold = power + 2;
+    let conditionMet = target.stamina <= threshold ? true : false;
+
+    if (conditionMet) {
+        console.log(target.name + " has " + threshold + " or less Stamina and forfeits the duel.");
+        target.lose();
+    } else {
+        console.log("Polymorph has no effect.");
+    }
+}
