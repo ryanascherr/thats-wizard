@@ -1,4 +1,4 @@
-import { castStun, castSilence, castExplosion, castDeath, castDisarm, castGrimOmen, castSharePain, castChaos, castMindControl, castPolymorph } from "./spells.js";
+import { spellInfo, castStun, castSilence, castExplosion, castDeath, castDisarm, castGrimOmen, castSharePain, castChaos, castMindControl, castPolymorph, castIgnite } from "./spells.js";
 
 let cards = [
     {
@@ -83,8 +83,9 @@ class Player {
     }
     usePower(power) {
         this.power -= power;
-        
+
         console.log(this.name + " uses " + power + " Power.");
+        
         this.displayPower();
     }
     displayPower() {
@@ -100,16 +101,32 @@ class Player {
         console.log(this.name + "'s Power is " + this.power + "/10.");
     }
     castSpell(id, power) {
-        let foundSpell = cards.find(card => card.id === id);
+        // let foundSpell = cards.find(card => card.id === id);
 
-        console.log(this.name + " is casting " + foundSpell.name + ".");
+        // console.log(this.name + " is casting " + foundSpell.name + ".");
 
-        let damage = power + foundSpell.damage;
+        // let damage = power + foundSpell.damage;
 
-        computer.takeDamage(damage);
+        // computer.takeDamage(damage);
+
+
     }
     lose() {
         console.log(this.name + " loses the duel.");
+    }
+    endTurn() {
+        this.checkForIgnite();
+    }
+    checkForIgnite() {
+        if (this.hasIgnite && this.igniteTurn === turn) {
+            console.log(this.name + " takes damage from Ignite.");
+
+            let damage = 6;
+            this.takeDamage(damage);
+
+            this.hasIgnite = false;
+            this.igniteTurn = 0;
+        }
     }
 };
 
@@ -140,26 +157,57 @@ class Computer extends Player {
     }
 };
 
+// class DurationSpell {
+//     constructor(spellFunction, caster, target, activateTurnNumber) {
+//         this.spellFunction = spellFunction;
+//     }
+    
+// }
+
+let turns = [];
+
 let human = new Human("Human");
 let computer = new Computer("Computer");
-let turn = 1;
-
-// human.takeDamage(7);
-castChaos(human, computer, 7);
-
-// human.takeDamage(5);
-// human.usePower(7);
-// human.focus();
-// human.castSpell(2, 5);
+export let turn = 1;
 
 startGame();
 function startGame() {
     console.log(human.name + " vs. " + computer.name);
-    startTurn();
 }
 
+document.querySelector(".js_start-turn").onclick = function() {
+    startTurn();
+};
+
+document.querySelector(".js_end-turn").onclick = function() {
+    endTurn();
+};
+
+document.addEventListener('click', function(event) {
+    if (event.target.closest('.js_cast-spell')) {
+        let spellId = parseInt(event.target.dataset.id);
+        let powerSpent = parseInt(document.querySelector(".js_power-dropdown").value);
+        
+        let foundSpell = spellInfo.find((spell) => spell.id === spellId);
+
+        human.usePower(powerSpent);
+
+        foundSpell.spell(human, computer, powerSpent);
+    }
+});
+
 function startTurn() {
-    console.log("Turn " + turn);
+    console.log("Turn " + turn + " is beginning.");
     // computer.chooseCard();
     // human.chooseCard();
+}
+
+function endTurn() {
+    console.log("Checking for end of turn effects...");
+
+    human.endTurn();
+    computer.endTurn();
+
+    console.log("Turn " + turn + " is over.");
+    turn++;
 }

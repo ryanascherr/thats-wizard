@@ -1,3 +1,53 @@
+import { turn } from "./script.js";
+
+export let spellInfo = [
+    {
+        id: 0,
+        name: "Stun",
+        powerMin: 1,
+        powerMax: 3,
+        spell: function(caster, target, power) {
+            castStun(caster, target, power);
+        }
+    },
+    {
+        id: 1,
+        name: "Explosion",
+        powerMin: 3,
+        powerMax: 5,
+        spell: function(caster, target, power) {
+            castExplosion(caster, target, power);
+        }
+    },
+    {
+        id: 2,
+        name: "Death",
+        powerMin: 10,
+        powerMax: 10,
+        spell: function(caster, target, power) {
+            castDeath(caster, target, power);
+        }
+    },
+    {
+        id: 3,
+        name: "Disarm",
+        powerMin: 2,
+        powerMax: 2,
+        spell: function(caster, target, power) {
+            castDisarm(caster, target, power);
+        }
+    },
+    {
+        id: 4,
+        name: "Chaos",
+        powerMin: 4,
+        powerMax: 6,
+        spell: function(caster, target, power) {
+            castChaos(caster, target, power);
+        }
+    }
+]
+
 export function castStun(caster, target, power) {
     console.log(caster.name + " is casting Stun on " + target.name + " using " + power + " Power.");
 
@@ -140,3 +190,22 @@ export function castPolymorph(caster, target, power) {
         console.log("Polymorph has no effect.");
     }
 }
+
+export function castIgnite(caster, target, power) {
+    console.log(caster.name + " is casting Ignite on " + target.name + " using " + power + " Power.");
+
+    target.hasIgnite = true;
+    target.igniteTurn = turn + 1;
+    console.log(target);
+
+    let damage = power + 3;
+
+    let spellObject = { castSpell: castIgnite(human, computer, ) };
+
+    // let damage = power + 1;
+    // target.takeDamage(damage);
+
+    // let newSpellObject = { }
+}
+
+// const newObject = { id: 2, name: 'Item B' }
