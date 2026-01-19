@@ -1,0 +1,14 @@
+.hand-of-cards {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.spell {
+  max-width: 200px;
+  margin: 1rem;
+}
+.spell__img {
+  max-width: 100%;
+}/*# sourceMappingURL=main.css.map */

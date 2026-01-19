@@ -2,7 +2,7 @@ import { turn } from "./script.js";
 
 export let spellInfo = [
     {
-        id: 0,
+        id: 2,
         name: "Stun",
         powerMin: 1,
         powerMax: 3,
@@ -11,7 +11,7 @@ export let spellInfo = [
         }
     },
     {
-        id: 1,
+        id: 3,
         name: "Explosion",
         powerMin: 3,
         powerMax: 5,
@@ -20,7 +20,7 @@ export let spellInfo = [
         }
     },
     {
-        id: 2,
+        id: 4,
         name: "Death",
         powerMin: 10,
         powerMax: 10,
@@ -29,7 +29,7 @@ export let spellInfo = [
         }
     },
     {
-        id: 3,
+        id: 5,
         name: "Disarm",
         powerMin: 2,
         powerMax: 2,
@@ -38,15 +38,51 @@ export let spellInfo = [
         }
     },
     {
-        id: 4,
+        id: 6,
         name: "Chaos",
         powerMin: 4,
         powerMax: 6,
         spell: function(caster, target, power) {
             castChaos(caster, target, power);
         }
-    }
+    },
+    {
+        id: 7,
+        name: "Embrace Pain",
+        powerMin: 1,
+        powerMax: 3,
+        spell: function(caster, target, power) {
+            castEmbracePain(caster, target, power);
+        }
+    },
+    {
+        id: 8,
+        name: "Portents",
+        powerMin: 2,
+        powerMax: 4,
+        spell: function(caster, target, power) {
+            castPortents(caster, target, power);
+        }
+    },
+    {
+        id: 9,
+        name: "Share Pain",
+        powerMin: 1,
+        powerMax: 3,
+        spell: function(caster, target, power) {
+            castSharePain(caster, target, power);
+        }
+    },
 ]
+
+export function focus(caster) {
+    console.log(caster.name + " uses Focus and will gain all Power at the end of the round.");
+    caster.isFocusing = true;
+}
+
+export function counterSpell(caster, target) {
+    console.log(caster.name + " uses Counterspell.");
+}
 
 export function castStun(caster, target, power) {
     console.log(caster.name + " is casting Stun on " + target.name + " using " + power + " Power.");
@@ -196,16 +232,62 @@ export function castIgnite(caster, target, power) {
 
     target.hasIgnite = true;
     target.igniteTurn = turn + 1;
-    console.log(target);
-
-    let damage = power + 3;
-
-    let spellObject = { castSpell: castIgnite(human, computer, ) };
-
-    // let damage = power + 1;
-    // target.takeDamage(damage);
-
-    // let newSpellObject = { }
+    target.igniteDamage = power + 3;
 }
 
-// const newObject = { id: 2, name: 'Item B' }
+export function castLevitate(caster, target, power) {
+    console.log(caster.name + " is casting Levitate on " + target.name + " using " + power + " Power.");
+
+    target.isLevitating = true;
+    target.levitateTurn = turn + 1;
+    target.levitateDamage = power;
+}
+
+export function castEmbracePain(caster, target, power) {
+    console.log(caster.name + " is casting Embrace Pain on themselves using " + power + " Power.");
+
+    caster.isEmbracingPain = true;
+    caster.embracePainStart = turn + 1;
+    caster.embracePainEnd = caster.embracePainStart + power + 1;
+}
+
+export function castPortents (caster, target, power) {
+    console.log(caster.name + " is casting Portents on themselves using " + power + " Power.");
+
+    caster.hasPortents = true;
+    caster.portentsStart = turn + 1;
+    caster.portentsEnd = caster.portentsStart + power;
+}
+
+export function castFear(caster, target, power) {
+    console.log(caster.name + " is casting Fear on " + target.name + " using " + power + " Power.");
+
+    target.hasFear = true;
+    target.fearStart = turn + 1;
+    target.fearEnd = target.fearStart + power;
+}
+
+export function castRegenerate(caster, target, power) {
+    console.log(caster.name + " is casting Regenerate on themselves using " + power + " Power.");
+
+    console.log(caster + " regains 2 Stamina now.");
+    caster.gainStamina(2);
+
+    caster.isRegenerating = true;
+    caster.regenerateTurn = turn + 1;
+}
+
+export function castBrittleBones(caster, target, power) {
+    console.log(caster.name + " is casting Brittlebones on " + target.name + " using " + power + " Power.");
+
+    target.hasBrittleBones = true;
+    target.brittleBonesStart = turn + 1;
+    target.brittleBonesEnd = target.brittleBonesStart + power;
+}
+
+export function castShrink(caster, target, power) {
+    console.log(caster.name + " is casting Shrink on " + target.name + " using " + power + " Power.");
+
+    let fatigue = Math.floor(target.stamina / 2);
+    target.takeFatigue(fatigue);
+}
