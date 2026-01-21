@@ -52,7 +52,7 @@ class Player {
         this.name = name;
         this.stamina = 20;
         this.power = 10;
-        this.spells = [3, 7, 4, 8, 9];
+        this.spells = [0, 1, 3, 7, 4, 8, 9];
         this.consecutiveCounterspells = 0;
     }
     takeDamage(damage) {
@@ -122,7 +122,17 @@ class Player {
         this.power = 10;
 
         console.log(this.name + " uses Focus to refill power to 10.");
-        console.log(this.name + "'s Power is " + this.power + "/10.");
+
+        this.displayPower();
+    }
+    castSpell(caster, target) {
+        if (this.isCounterspelled && this.currentSpellObject.isSpell !== false) {
+            console.log("Counterspell prevents " + this.name + " from casting " + this.currentSpellObject.name + ".");
+
+            this.isCounterspelled = false;
+        } else {
+            this.currentSpellObject.spell(caster, target, this.currentSpellPower);
+        }
     }
     // castSpell(id, power) {
     //     // let foundSpell = cards.find(card => card.id === id);
@@ -254,20 +264,10 @@ class Player {
             if (this.isLevitating) {
                 console.log(this.name + " is Levitating and Focus has no effect.");
             } else {
-                this.power = 10;
-
-                console.log(this.name + " uses Focus.");
-
-                this.displayPower();
+                this.focus();
             }
+            this.isFocusing = false;
         }
-        this.isFocusing = false;
-    }
-};
-
-class Human extends Player {
-    castSpell() {
-        this.currentSpellObject.spell(human, computer, this.currentSpellPower);
     }
 };
 
@@ -287,10 +287,16 @@ class Computer extends Player {
         
         let randomNumber = Math.floor(Math.random() * (4 - 1 + 1)) + 1;
         if (randomNumber === 1 && this.stamina > 1 + this.consecutiveCounterspells) {
-            counterSpell(computer, human);
+            let spellToCast = spellInfo.find(spell => spell.id === 1);
+
+            this.currentSpellObject = spellToCast;
+            this.currentSpellPower = 0;
             this.consecutiveCounterspells += 1;
         } else if ((arrayOfCastableSpells === 0) || (currentPower <= 4 && randomNumber === 4)) {
-            focus(computer);
+            let spellToCast = spellInfo.find(spell => spell.id === 0);
+
+            this.currentSpellObject = spellToCast;
+            this.currentSpellPower = 0;
         } else {
             let randomSpellId = arrayOfCastableSpells[Math.floor(Math.random() * arrayOfCastableSpells.length)];
             
@@ -313,19 +319,9 @@ class Computer extends Player {
             // spellToCast.spell(computer, human, power);
         }
     }
-    castSpell() {
-        this.currentSpellObject.spell(computer, human, this.currentSpellPower);
-    }
 };
 
-// class DurationSpell {
-//     constructor(spellFunction, caster, target, activateTurnNumber) {
-//         this.spellFunction = spellFunction;
-//     }
-    
-// }
-
-let human = new Human("Human");
+let human = new Player("Human");
 let computer = new Computer("Computer");
 export let turn = 1;
 
@@ -365,7 +361,11 @@ function createHand() {
         } else {
             newDiv.innerHTML = `
                 <img class="spell__img" src="` + src + `">
-                <button class="js_cast-spell" data-id="` + spellId + `">Cast</button> <span>Power: ` + foundSpell.powerMin + `
+                <button class="js_cast-spell" data-id="` + spellId + `">Cast</button>
+                <label for="power">Power:</label>
+                <select class="js_power-dropdown" id="power" name="power" data-id="` + spellId + `">
+                    <option value="` + foundSpell.powerMin + `">` + foundSpell.powerMin + `</option>
+                </select>
             `;
         }
 
@@ -381,9 +381,9 @@ document.querySelector(".js_end-turn").onclick = function() {
     endTurn();
 };
 
-document.querySelector(".js_human-focus").onclick = function() {
-    focus(human);
-};
+// document.querySelector(".js_human-focus").onclick = function() {
+//     focus(human);
+// };
 
 document.addEventListener('click', function(event) {
     if (event.target.closest('.js_cast-spell')) {
@@ -391,6 +391,8 @@ document.addEventListener('click', function(event) {
         let powerSpent = parseInt(document.querySelector(".js_power-dropdown[data-id='" + spellId + "'").value);
         
         let foundSpell = spellInfo.find((spell) => spell.id === spellId);
+
+        console.log(foundSpell);
 
         // human.usePower(powerSpent);
         human.currentSpellObject = foundSpell;
@@ -410,27 +412,23 @@ function comparePower() {
 
     console.log("Human plays " + humanSpellName + " using " + human.currentSpellPower + " Power.");
     human.usePower(human.currentSpellPower);
-    // human.displayPower();
 
     console.log("Computer plays " + computerSpellName + " using " + computer.currentSpellPower + " Power.");
     computer.usePower(computer.currentSpellPower);
-    // computer.displayPower();
 
     if (human.currentSpellPower <= computer.currentSpellPower) {
         console.log("Human goes first.");
-        human.castSpell();
-        computer.castSpell();
+        human.castSpell(human, computer);
+        computer.castSpell(computer, human);
     } else {
         console.log("Computer goes first.");
-        computer.castSpell();
-        human.castSpell();
+        computer.castSpell(computer, human);
+        human.castSpell(human, computer);
     }
 }
 
 function startRound() {
-    console.log("Turn " + turn + " is beginning.");
-    // computer.chooseCard();
-    // human.chooseCard();
+    console.log("Round " + turn + " is beginning.");
 }
 
 function endTurn() {

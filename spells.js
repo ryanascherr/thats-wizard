@@ -2,6 +2,26 @@ import { turn } from "./script.js";
 
 export let spellInfo = [
     {
+        id: 0,
+        name: "Focus",
+        isSpell: false,
+        powerMin: 0,
+        powerMax: 0,
+        spell: function(caster, target, power) {
+            focus(caster, target, power);
+        }
+    },
+    {
+        id: 1,
+        name: "Counterspell",
+        isSpell: false,
+        powerMin: 0,
+        powerMax: 0,
+        spell: function(caster, target, power) {
+            counterSpell(caster, target, power);
+        }
+    },
+    {
         id: 2,
         name: "Stun",
         powerMin: 1,
@@ -75,13 +95,14 @@ export let spellInfo = [
     },
 ]
 
-export function focus(caster) {
+export function focus(caster, target, power) {
     console.log(caster.name + " uses Focus and will gain all Power at the end of the round.");
     caster.isFocusing = true;
 }
 
-export function counterSpell(caster, target) {
-    console.log(caster.name + " uses Counterspell.");
+export function counterSpell(caster, target, power) {
+    console.log(caster.name + " prepares Counterspell.");
+    target.isCounterspelled = true;
 }
 
 export function castStun(caster, target, power) {
