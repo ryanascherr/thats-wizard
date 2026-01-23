@@ -1,4 +1,4 @@
-import { turn } from "./script.js";
+import { round } from "./script.js";
 
 export let spellInfo = [
     {
@@ -91,6 +91,96 @@ export let spellInfo = [
         powerMax: 3,
         spell: function(caster, target, power) {
             castSharePain(caster, target, power);
+        }
+    },
+    {
+        id: 10,
+        name: "Silence",
+        powerMin: 2,
+        powerMax: 4,
+        spell: function(caster, target, power) {
+            castSilence(caster, target, power);
+        }
+    },
+    {
+        id: 11,
+        name: "Levitate",
+        powerMin: 4,
+        powerMax: 4,
+        spell: function(caster, target, power) {
+            castLevitate(caster, target, power);
+        }
+    },
+    {
+        id: 12,
+        name: "Grim Omen",
+        powerMin: 7,
+        powerMax: 7,
+        spell: function(caster, target, power) {
+            castGrimOmen(caster, target, power);
+        }
+    },
+    {
+        id: 13,
+        name: "Mind Control",
+        powerMin: 8,
+        powerMax: 10,
+        spell: function(caster, target, power) {
+            castMindControl(caster, target, power);
+        }
+    },
+    {
+        id: 14,
+        name: "Polymorph",
+        powerMin: 6,
+        powerMax: 6,
+        spell: function(caster, target, power) {
+            castPolymorph(caster, target, power);
+        }
+    },
+    {
+        id: 15,
+        name: "Ignite",
+        powerMin: 3,
+        powerMax: 3,
+        spell: function(caster, target, power) {
+            castIgnite(caster, target, power);
+        }
+    },
+    {
+        id: 16,
+        name: "Fear",
+        powerMin: 2,
+        powerMax: 4,
+        spell: function(caster, target, power) {
+            castFear(caster, target, power);
+        }
+    },
+    {
+        id: 17,
+        name: "Regenerate",
+        powerMin: 4,
+        powerMax: 4,
+        spell: function(caster, target, power) {
+            castRegenerate(caster, target, power);
+        }
+    },
+    {
+        id: 18,
+        name: "Brittlebones",
+        powerMin: 2,
+        powerMax: 4,
+        spell: function(caster, target, power) {
+            castBrittlebones(caster, target, power);
+        }
+    },
+    {
+        id: 19,
+        name: "Shrink",
+        powerMin: 9,
+        powerMax: 9,
+        spell: function(caster, target, power) {
+            castShrink(caster, target, power);
         }
     },
 ]
@@ -252,7 +342,7 @@ export function castIgnite(caster, target, power) {
     console.log(caster.name + " is casting Ignite on " + target.name + " using " + power + " Power.");
 
     target.hasIgnite = true;
-    target.igniteTurn = turn + 1;
+    target.igniteRound = round + 1;
     target.igniteDamage = power + 3;
 }
 
@@ -260,7 +350,7 @@ export function castLevitate(caster, target, power) {
     console.log(caster.name + " is casting Levitate on " + target.name + " using " + power + " Power.");
 
     target.isLevitating = true;
-    target.levitateTurn = turn + 1;
+    target.levitateRound = round + 1;
     target.levitateDamage = power;
 }
 
@@ -268,7 +358,7 @@ export function castEmbracePain(caster, target, power) {
     console.log(caster.name + " is casting Embrace Pain on themselves using " + power + " Power.");
 
     caster.isEmbracingPain = true;
-    caster.embracePainStart = turn + 1;
+    caster.embracePainStart = round + 1;
     caster.embracePainEnd = caster.embracePainStart + power + 1;
 }
 
@@ -276,7 +366,7 @@ export function castPortents (caster, target, power) {
     console.log(caster.name + " is casting Portents on themselves using " + power + " Power.");
 
     caster.hasPortents = true;
-    caster.portentsStart = turn + 1;
+    caster.portentsStart = round + 1;
     caster.portentsEnd = caster.portentsStart + power;
 }
 
@@ -284,25 +374,25 @@ export function castFear(caster, target, power) {
     console.log(caster.name + " is casting Fear on " + target.name + " using " + power + " Power.");
 
     target.hasFear = true;
-    target.fearStart = turn + 1;
+    target.fearStart = round + 1;
     target.fearEnd = target.fearStart + power;
 }
 
 export function castRegenerate(caster, target, power) {
     console.log(caster.name + " is casting Regenerate on themselves using " + power + " Power.");
 
-    console.log(caster + " regains 2 Stamina now.");
+    console.log(caster.name + " regains 2 Stamina now.");
     caster.gainStamina(2);
 
     caster.isRegenerating = true;
-    caster.regenerateTurn = turn + 1;
+    caster.regenerateRound = round + 1;
 }
 
-export function castBrittleBones(caster, target, power) {
+export function castBrittlebones(caster, target, power) {
     console.log(caster.name + " is casting Brittlebones on " + target.name + " using " + power + " Power.");
 
     target.hasBrittleBones = true;
-    target.brittleBonesStart = turn + 1;
+    target.brittleBonesStart = round + 1;
     target.brittleBonesEnd = target.brittleBonesStart + power;
 }
 
