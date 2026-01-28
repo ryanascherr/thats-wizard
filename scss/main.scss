@@ -1,3 +1,12 @@
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    text-align: center;
+}
+
 .hand-of-cards {
     display: flex;
     justify-content: center;
@@ -11,5 +20,92 @@
 
     &__img {
         max-width: 100%;
+    }
+}
+
+// Stamina / Power Track
+
+.tracker {
+    background-color: #201109;
+    color: #E3C974;
+    display: flex;
+    padding: 1rem;
+    width: 200px;
+    // height: 400px;
+
+    &__stamina {
+        // background-color: red;
+        height: 100%;
+        width: 50%;
+    }
+
+    &__power {
+        // background-color: blue;
+        height: 100%;
+        width: 50%;
+    }
+
+    &__stamina-track {
+        display: flex;
+        flex-direction: column;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        padding-bottom: 1rem;
+
+        &:first {
+            margin-top: 0;
+        }
+    }
+}
+
+.node {
+    // padding: 1rem;
+    height: 2rem;
+    width: 2rem;
+    border-radius: 50%;
+
+    &--right {
+        align-self: flex-end;
+    }
+
+    &--center {
+        align-self: center;
+    }
+
+    &--blue {
+        background-color: #20E6FD;
+    }
+
+    &--red {
+        position: relative;
+        background-color: #E8332E;
+        margin-top: -.25rem;
+    }
+}
+
+.line {
+    width: .25rem;
+    align-self: center;
+
+    &--blue {
+        background-color: #20E6FD;
+        height: 1.5rem;
+    }
+
+    &--red {
+        background-color: #E8332E;
+        position: absolute;
+        bottom: -.5rem;
+        height: 2rem;
+    }
+
+    &--down-left {
+        left: 0;
+        transform: rotate(50deg);
+    }
+
+    &--down-right {
+        right: 0;
+        transform: rotate(130deg);
     }
 }

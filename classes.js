@@ -99,8 +99,6 @@ export class Player {
             } else {
                 human.counterSpell();
             }
-
-            this.isCounterspelled = false;
         } else {
             this.currentSpellObject.spell(caster, target, this.currentSpellPower);
 
@@ -110,6 +108,7 @@ export class Player {
                 human.consecutiveCounterspells = 0;
             }
         }
+        this.isCounterspelled = false;
     }
     lose() {
         console.log(this.name + " loses the duel.");
@@ -238,6 +237,9 @@ export class Player {
 };
 
 export class Computer extends Player {
+    adjustHand(spell) {
+        this.spells = [ spell ];
+    }
     chooseCard() {
         let currentPower = this.power;
         let arrayOfCastableSpells = [];

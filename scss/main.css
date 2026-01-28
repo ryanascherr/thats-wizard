@@ -1,3 +1,12 @@
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-align: center;
+}
+
 .hand-of-cards {
   display: flex;
   justify-content: center;
@@ -11,4 +20,73 @@
 }
 .spell__img {
   max-width: 100%;
+}
+
+.tracker {
+  background-color: #201109;
+  color: #E3C974;
+  display: flex;
+  padding: 1rem;
+  width: 200px;
+}
+.tracker__stamina {
+  height: 100%;
+  width: 50%;
+}
+.tracker__power {
+  height: 100%;
+  width: 50%;
+}
+.tracker__stamina-track {
+  display: flex;
+  flex-direction: column;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-bottom: 1rem;
+}
+.tracker__stamina-track:first {
+  margin-top: 0;
+}
+
+.node {
+  height: 2rem;
+  width: 2rem;
+  border-radius: 50%;
+}
+.node--right {
+  align-self: flex-end;
+}
+.node--center {
+  align-self: center;
+}
+.node--blue {
+  background-color: #20E6FD;
+}
+.node--red {
+  position: relative;
+  background-color: #E8332E;
+  margin-top: -0.25rem;
+}
+
+.line {
+  width: 0.25rem;
+  align-self: center;
+}
+.line--blue {
+  background-color: #20E6FD;
+  height: 1.5rem;
+}
+.line--red {
+  background-color: #E8332E;
+  position: absolute;
+  bottom: -0.5rem;
+  height: 2rem;
+}
+.line--down-left {
+  left: 0;
+  transform: rotate(50deg);
+}
+.line--down-right {
+  right: 0;
+  transform: rotate(130deg);
 }/*# sourceMappingURL=main.css.map */

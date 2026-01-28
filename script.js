@@ -5,6 +5,7 @@ export let round = 1;
 
 startGame();
 function startGame() {
+    computer.adjustHand(4);
     console.log("----- " + human.name + " vs. " + computer.name + " -----");
     createHand();
     startRound();
