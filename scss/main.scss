@@ -63,6 +63,7 @@ h6 {
     height: 2rem;
     width: 2rem;
     border-radius: 50%;
+    position: relative;
 
     &--right {
         align-self: flex-end;
@@ -76,10 +77,35 @@ h6 {
         background-color: #20E6FD;
     }
 
+    &--filled-blue {
+        background-color: #1743A4;
+    }
+
     &--red {
-        position: relative;
         background-color: #E8332E;
         margin-top: -.25rem;
+    }
+
+    &--filled-red {
+        background-color: #7D0A08;
+    }
+
+    &--first {
+        margin-top: 0;
+    }
+
+    &__number {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+
+        &--right {
+            right: -1.25rem;
+        }
+
+        &--left {
+            left: -1.25rem;
+        }
     }
 }
 
@@ -95,17 +121,17 @@ h6 {
     &--red {
         background-color: #E8332E;
         position: absolute;
-        bottom: -.5rem;
-        height: 2rem;
+        bottom: -.35rem;
+        height: 1rem;
     }
 
     &--down-left {
-        left: 0;
+        left: -5px;
         transform: rotate(50deg);
     }
 
     &--down-right {
-        right: 0;
+        right: -5px;
         transform: rotate(130deg);
     }
 }

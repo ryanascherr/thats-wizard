@@ -52,6 +52,7 @@ h6 {
   height: 2rem;
   width: 2rem;
   border-radius: 50%;
+  position: relative;
 }
 .node--right {
   align-self: flex-end;
@@ -62,10 +63,29 @@ h6 {
 .node--blue {
   background-color: #20E6FD;
 }
+.node--filled-blue {
+  background-color: #1743A4;
+}
 .node--red {
-  position: relative;
   background-color: #E8332E;
   margin-top: -0.25rem;
+}
+.node--filled-red {
+  background-color: #7D0A08;
+}
+.node--first {
+  margin-top: 0;
+}
+.node__number {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.node__number--right {
+  right: -1.25rem;
+}
+.node__number--left {
+  left: -1.25rem;
 }
 
 .line {
@@ -79,14 +99,14 @@ h6 {
 .line--red {
   background-color: #E8332E;
   position: absolute;
-  bottom: -0.5rem;
-  height: 2rem;
+  bottom: -0.35rem;
+  height: 1rem;
 }
 .line--down-left {
-  left: 0;
+  left: -5px;
   transform: rotate(50deg);
 }
 .line--down-right {
-  right: 0;
+  right: -5px;
   transform: rotate(130deg);
 }/*# sourceMappingURL=main.css.map */
